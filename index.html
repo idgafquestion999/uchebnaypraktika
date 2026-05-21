@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Главная — Магазин техники{% endblock %}
+{% block content %}
+<div class="text-center py-5 bg-light rounded-3 mb-4">
+    <h1 class="display-4">Магазин техники</h1>
+    <p class="lead">Смартфоны, ноутбуки, планшеты, телевизоры и другая электроника</p>
+    <a href="{{ url_for('catalog') }}" class="btn btn-primary btn-lg">Перейти в каталог</a>
+</div>
+<h2 class="mb-3">Хиты продаж</h2>
+<div class="row">
+    {% for p in top_products %}
+    <div class="col-md-3 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ p.name }}</h5>
+                <p class="text-muted mb-1">{{ p.brand }}</p>
+                <p class="fs-4 text-primary">{{ "%.0f"|format(p.price) }} ₽</p>
+                <a href="{{ url_for('product_detail', product_id=p.id) }}" class="btn btn-outline-dark btn-sm w-100">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
