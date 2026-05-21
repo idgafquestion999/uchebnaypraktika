@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="col-md-4 mx-auto">
+    <h1>Вход</h1>
+    <form method="POST">
+        <div class="mb-3"><input name="username" class="form-control" placeholder="Имя пользователя" required></div>
+        <div class="mb-3"><input name="password" type="password" class="form-control" placeholder="Пароль" required></div>
+        <button class="btn btn-dark w-100">Войти</button>
+    </form>
+    <p class="mt-2">Нет аккаунта? <a href="{{ url_for('register') }}">Регистрация</a></p>
+</div>
+{% endblock %}
