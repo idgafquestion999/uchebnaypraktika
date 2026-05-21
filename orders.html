@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Мои заказы{% endblock %}
+{% block content %}
+<h1>Мои заказы</h1>
+{% if orders %}
+{% for order in orders %}
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between">
+        <span>Заказ №{{ order.id }}</span>
+        <span class="badge bg-{{ 'success' if order.status=='Выполнен' else 'warning' }}">{{ order.status }}</span>
+    </div>
+    <div class="card-body">
+        <p>Дата: {{ order.created_at.strftime('%d.%m.%Y %H:%M') }} | Сумма: {{ "%.0f"|format(order.total_price) }} ₽</p>
+        <ul>
+            {% for item in order.items %}
+            <li>{{ item.product.name }} x{{ item.quantity }} — {{ "%.0f"|format(item.price) }} ₽</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p>Заказов пока нет.</p>
+{% endif %}
+{% endblock %}
