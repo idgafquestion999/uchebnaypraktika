@@ -1,0 +1,19 @@
+tech_shop/
+├── app.py              ← ВСЯ логика здесь (модели + маршруты + админка + API)
+├── seed.py             ← наполнение БД
+├── requirements.txt    ← зависимости
+├── static/
+│   └── style.css       ← стили
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── catalog.html
+    ├── product.html
+    ├── cart.html
+    ├── orders.html
+    ├── login.html
+    ├── register.html
+    ├── 404.html
+    └── admin/
+        ├── dashboard.html
+        └── products.html
