@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+<h1 class="mb-4">Каталог товаров</h1>
+<div class="row">
+    <div class="col-md-3">
+        <h5>Категории</h5>
+        <ul class="list-group mb-3">
+            <li class="list-group-item {% if not current_category %}active{% endif %}">
+                <a href="{{ url_for('catalog') }}" class="text-decoration-none {% if not current_category %}text-white{% endif %}">Все</a>
+            </li>
+            {% for c in categories %}
+            <li class="list-group-item {% if current_category==c.id %}active{% endif %}">
+                <a href="{{ url_for('catalog', category=c.id) }}" class="text-decoration-none {% if current_category==c.id %}text-white{% endif %}">{{ c.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <h5>Сортировка</h5>
+        <select class="form-select" onchange="location=this.value">
+            <option value="{{ url_for('catalog', category=current_category, sort='name') }}" {% if current_sort=='name' %}selected{% endif %}>По названию</option>
+            <option value="{{ url_for('catalog', category=current_category, sort='price_asc') }}" {% if current_sort=='price_asc' %}selected{% endif %}>Цена ↑</option>
+            <option value="{{ url_for('catalog', category=current_category, sort='price_desc') }}" {% if current_sort=='price_desc' %}selected{% endif %}>Цена ↓</option>
+        </select>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            {% for p in products %}
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.name }}</h5>
+                        <p class="text-muted mb-1">{{ p.brand }}</p>
+                        <p class="fs-5 text-primary">{{ "%.0f"|format(p.price) }} ₽</p>
+                        <p class="small">На складе: {{ p.stock }} шт.</p>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        {% if current_user.is_authenticated and p.is_available() %}
+                        <form method="POST" action="{{ url_for('add_to_cart', product_id=p.id) }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button class="btn btn-dark btn-sm w-100">В корзину</button>
+                        </form>
+                        {% elif not p.is_available() %}
+                        <span class="text-danger small">Нет в наличии</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p>Товары не найдены.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
