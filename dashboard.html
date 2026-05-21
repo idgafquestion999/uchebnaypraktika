@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Админ-панель{% endblock %}
+{% block content %}
+<h1>Админ-панель</h1>
+<div class="row">
+    <div class="col-md-6"><div class="card p-3"><h5>Товаров: {{ products_count }}</h5></div></div>
+    <div class="col-md-6"><div class="card p-3"><h5>Заказов: {{ orders_count }}</h5></div></div>
+</div>
+<h3 class="mt-4">Последние заказы</h3>
+<ul class="list-group">
+    {% for o in recent_orders %}
+    <li class="list-group-item">Заказ №{{ o.id }} — {{ o.status }} — {{ "%.0f"|format(o.total_price) }} ₽</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('admin_products') }}" class="btn btn-dark mt-3">Управление товарами</a>
+<a href="{{ url_for('admin_orders') }}" class="btn btn-outline-dark mt-3">Все заказы</a>
+{% endblock %}
